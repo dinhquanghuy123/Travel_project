@@ -6,8 +6,8 @@ class Tour(models.Model):
     name = models.CharField(max_length=200)
     destination = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=12, decimal_places=2)
-    duration = models.IntegerField(help_text="Số ngày")
-    slots = models.IntegerField(default=10)
+    duration = models.PositiveIntegerField(help_text="Số ngày")
+    slots = models.PositiveIntegerField(default=10)
     description = models.TextField()
     image = models.ImageField(upload_to='tours/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -25,3 +25,7 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.tour.name} ({self.rating})"
+
+
+class Meta:
+    unique_together = ('user', 'tour')
