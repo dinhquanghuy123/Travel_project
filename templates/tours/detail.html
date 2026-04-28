@@ -15,7 +15,7 @@
 
 <p>{{ tour.description }}</p>
 
-<a href="/bookings/create/{{ tour.id }}/">
+<a href="{% url 'create_booking' tour.id %}">
     Đặt tour ngay
 </a>
 

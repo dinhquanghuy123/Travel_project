@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Đặt tour: {{ tour.name }}</h1>
+
+<p>Giá: {{ tour.price }} VNĐ</p>
+
+<form method="post">
+    {% csrf_token %}
+
+    <label>Số lượng người:</label>
+    <input type="number" name="quantity" min="1" value="1">
+
+    <button type="submit">Xác nhận đặt</button>
+    {% if error %}
+    <p style="color:red;">{{ error }}</p>
+    {% endif %}
+</form>
+
+{% endblock %}
