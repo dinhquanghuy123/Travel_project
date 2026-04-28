@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Danh sách Tour</h1>
+
+{% for tour in tours %}
+    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+        {% if tour.image %}
+            <img src="{{ tour.image.url }}" width="250">
+        {% endif %}
+
+        <h3>{{ tour.name }}</h3>
+        <p>Điểm đến: {{ tour.destination }}</p>
+        <p>Giá: {{ tour.price }} VNĐ</p>
+        <p>Còn {{ tour.slots }} chỗ</p>
+
+        <a href="{% url 'tour_detail' tour.id %}">
+            Xem chi tiết
+        </a>
+    </div>
+{% endfor %}
+
+{% endblock %}

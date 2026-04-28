@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ tour.name }}</h1>
+
+{% if tour.image %}
+    <img src="{{ tour.image.url }}" width="400">
+{% endif %}
+
+<p>Điểm đến: {{ tour.destination }}</p>
+<p>Giá: {{ tour.price }} VNĐ</p>
+<p>Số ngày: {{ tour.duration }}</p>
+<p>Còn chỗ: {{ tour.slots }}</p>
+
+<p>{{ tour.description }}</p>
+
+<a href="/bookings/create/{{ tour.id }}/">
+    Đặt tour ngay
+</a>
+
+<hr>
+
+<h2>Đánh giá</h2>
+
+{% for review in reviews %}
+    <p>
+        <b>{{ review.user.username }}</b>
+        ({{ review.rating }}⭐)
+    </p>
+    <p>{{ review.comment }}</p>
+    <hr>
+{% empty %}
+    <p>Chưa có đánh giá.</p>
+{% endfor %}
+
+{% endblock %}
