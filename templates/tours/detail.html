@@ -13,11 +13,16 @@
 <p>Số ngày: {{ tour.duration }}</p>
 <p>Còn chỗ: {{ tour.slots }}</p>
 
+<h3>Mô tả</h3>
 <p>{{ tour.description }}</p>
 
-<a href="{% url 'create_booking' tour.id %}">
-    Đặt tour ngay
-</a>
+{% if tour.slots > 0 %}
+    <a href="{% url 'create_booking' tour.id %}">
+        Đặt tour ngay
+    </a>
+{% else %}
+    <p style="color:red;">Tour đã hết chỗ</p>
+{% endif %}
 
 <hr>
 
@@ -33,5 +38,36 @@
 {% empty %}
     <p>Chưa có đánh giá.</p>
 {% endfor %}
+
+{% if request.user.is_authenticated %}
+<hr>
+<h3>Viết đánh giá</h3>
+
+<form method="post" action="{% url 'add_review' tour.id %}">
+    {% csrf_token %}
+
+    <label>Số sao:</label>
+    <select name="rating">
+        <option value="5">5</option>
+        <option value="4">4</option>
+        <option value="3">3</option>
+        <option value="2">2</option>
+        <option value="1">1</option>
+    </select>
+
+    <br><br>
+
+    <textarea name="comment" rows="4"></textarea>
+
+    <br><br>
+
+    <button type="submit">Gửi đánh giá</button>
+</form>
+
+{% else %}
+    <p>
+        Vui lòng <a href="{% url 'login' %}">đăng nhập</a> để đánh giá.
+    </p>
+{% endif %}
 
 {% endblock %}
