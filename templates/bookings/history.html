@@ -1,19 +1,88 @@
 {% extends 'base.html' %}
 
+{% block title %}Lịch sử đặt tour - TravelVN{% endblock %}
+
 {% block content %}
 
-<h1>Lịch sử đặt tour</h1>
+<h1 class="fw-bold mb-4">Lịch sử đặt tour</h1>
+
+{% if bookings %}
+
+<div class="row">
 
 {% for booking in bookings %}
-    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
-        <h3>{{ booking.tour.name }}</h3>
-        <p>Số người: {{ booking.quantity }}</p>
-        <p>Tổng tiền: {{ booking.total_price }} VNĐ</p>
-        <p>Trạng thái: {{ booking.get_status_display }}</p>
-        <p>Ngày đặt: {{ booking.booked_at }}</p>
+
+<div class="col-md-6 mb-4">
+
+    <div class="card shadow-sm border-0 h-100">
+        <div class="card-body">
+
+            <h4 class="fw-bold mb-3">
+                {{ booking.tour.name }}
+            </h4>
+
+            <p class="mb-2">
+                <strong>👥 Số người:</strong>
+                {{ booking.quantity }}
+            </p>
+
+            <p class="mb-2">
+                <strong>💰 Tổng tiền:</strong>
+                <span class="text-danger fw-bold">
+                    {{ booking.total_price }} VNĐ
+                </span>
+            </p>
+
+            <p class="mb-2">
+                <strong>📌 Trạng thái:</strong>
+
+                {% if booking.status == 'pending' %}
+                    <span class="badge bg-warning text-dark">
+                        {{ booking.get_status_display }}
+                    </span>
+
+                {% elif booking.status == 'confirmed' %}
+                    <span class="badge bg-success">
+                        {{ booking.get_status_display }}
+                    </span>
+
+                {% elif booking.status == 'cancelled' %}
+                    <span class="badge bg-danger">
+                        {{ booking.get_status_display }}
+                    </span>
+
+                {% else %}
+                    <span class="badge bg-secondary">
+                        {{ booking.get_status_display }}
+                    </span>
+                {% endif %}
+            </p>
+
+            <p class="mb-3">
+                <strong>🕒 Ngày đặt:</strong>
+                {{ booking.booked_at|date:"d/m/Y H:i" }}
+            </p>
+
+            <a href="{% url 'tour_detail' booking.tour.id %}"
+               class="btn btn-outline-primary w-100">
+                Xem tour
+            </a>
+
+        </div>
     </div>
-{% empty %}
-    <p>Chưa có booking nào.</p>
+
+</div>
+
 {% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="alert alert-info">
+    Bạn chưa có booking nào.
+</div>
+
+{% endif %}
 
 {% endblock %}

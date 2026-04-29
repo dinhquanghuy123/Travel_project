@@ -1,73 +1,173 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ tour.name }} - TravelVN{% endblock %}
+
 {% block content %}
 
-<h1>{{ tour.name }}</h1>
+<div class="row g-4">
 
-{% if tour.image %}
-    <img src="{{ tour.image.url }}" width="400">
-{% endif %}
+    <!-- Left -->
+    <div class="col-md-8">
 
-<p>Điểm đến: {{ tour.destination }}</p>
-<p>Giá: {{ tour.price }} VNĐ</p>
-<p>Số ngày: {{ tour.duration }}</p>
-<p>Còn chỗ: {{ tour.slots }}</p>
+        <!-- Image -->
+        {% if tour.image %}
+        <img src="{{ tour.image.url }}"
+             class="img-fluid rounded shadow mb-4 w-100"
+             style="max-height:500px; object-fit:cover;">
+        {% endif %}
 
-<h3>Mô tả</h3>
-<p>{{ tour.description }}</p>
+        <!-- Title -->
+        <h1 class="fw-bold mb-3">{{ tour.name }}</h1>
 
-{% if tour.slots > 0 %}
-    <a href="{% url 'create_booking' tour.id %}">
-        Đặt tour ngay
-    </a>
-{% else %}
-    <p style="color:red;">Tour đã hết chỗ</p>
-{% endif %}
+        <!-- Info -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
 
-<hr>
+                <p class="mb-2"><strong>📍 Điểm đến:</strong> {{ tour.destination }}</p>
 
-<h2>Đánh giá</h2>
+                <p class="mb-2"><strong>🗓 Số ngày:</strong> {{ tour.duration }}</p>
 
-{% for review in reviews %}
-    <p>
-        <b>{{ review.user.username }}</b>
-        ({{ review.rating }}⭐)
-    </p>
-    <p>{{ review.comment }}</p>
-    <hr>
-{% empty %}
-    <p>Chưa có đánh giá.</p>
-{% endfor %}
+                <p class="mb-2"><strong>👥 Còn chỗ:</strong> {{ tour.slots }}</p>
 
-{% if request.user.is_authenticated %}
-<hr>
-<h3>Viết đánh giá</h3>
+                <p class="mb-0"><strong>💰 Giá:</strong>
+                    <span class="text-danger fw-bold fs-4">
+                        {{ tour.price }} VNĐ
+                    </span>
+                </p>
 
-<form method="post" action="{% url 'add_review' tour.id %}">
-    {% csrf_token %}
+            </div>
+        </div>
 
-    <label>Số sao:</label>
-    <select name="rating">
-        <option value="5">5</option>
-        <option value="4">4</option>
-        <option value="3">3</option>
-        <option value="2">2</option>
-        <option value="1">1</option>
-    </select>
+        <!-- Description -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
 
-    <br><br>
+                <h4 class="fw-bold mb-3">Mô tả</h4>
 
-    <textarea name="comment" rows="4"></textarea>
+                <p class="text-secondary">
+                    {{ tour.description }}
+                </p>
 
-    <br><br>
+            </div>
+        </div>
 
-    <button type="submit">Gửi đánh giá</button>
-</form>
+        <!-- Reviews -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
 
-{% else %}
-    <p>
-        Vui lòng <a href="{% url 'login' %}">đăng nhập</a> để đánh giá.
-    </p>
-{% endif %}
+                <h4 class="fw-bold mb-4">Đánh giá khách hàng</h4>
+
+                {% for review in reviews %}
+
+                <div class="border-bottom pb-3 mb-3">
+
+                    <p class="mb-1">
+                        <strong>{{ review.user.username }}</strong>
+                        <span class="text-warning">
+                            {{ review.rating }}⭐
+                        </span>
+                    </p>
+
+                    <p class="text-secondary mb-0">
+                        {{ review.comment }}
+                    </p>
+
+                </div>
+
+                {% empty %}
+
+                <p class="text-muted">Chưa có đánh giá.</p>
+
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <!-- Add Review -->
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body">
+
+                {% if request.user.is_authenticated %}
+
+                <h4 class="fw-bold mb-3">Viết đánh giá</h4>
+
+                <form method="post" action="{% url 'add_review' tour.id %}">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">Số sao</label>
+                        <select name="rating" class="form-select">
+                            <option value="5">5 ⭐</option>
+                            <option value="4">4 ⭐</option>
+                            <option value="3">3 ⭐</option>
+                            <option value="2">2 ⭐</option>
+                            <option value="1">1 ⭐</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Nội dung</label>
+                        <textarea name="comment"
+                                  rows="4"
+                                  class="form-control"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Gửi đánh giá
+                    </button>
+                </form>
+
+                {% else %}
+
+                <p class="mb-0">
+                    Vui lòng
+                    <a href="{% url 'login' %}">
+                        đăng nhập
+                    </a>
+                    để đánh giá.
+                </p>
+
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Right -->
+    <div class="col-md-4">
+
+        <div class="card shadow border-0 sticky-top" style="top:20px;">
+            <div class="card-body text-center">
+
+                <h4 class="fw-bold mb-3">Đặt Tour</h4>
+
+                <p class="text-danger fw-bold fs-3">
+                    {{ tour.price }} VNĐ
+                </p>
+
+                <p>Còn {{ tour.slots }} chỗ</p>
+
+                {% if tour.slots > 0 %}
+
+                <a href="{% url 'create_booking' tour.id %}"
+                   class="btn btn-warning w-100">
+                    Đặt tour ngay
+                </a>
+
+                {% else %}
+
+                <button class="btn btn-secondary w-100" disabled>
+                    Hết chỗ
+                </button>
+
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

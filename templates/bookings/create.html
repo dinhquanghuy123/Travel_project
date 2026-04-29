@@ -1,21 +1,92 @@
 {% extends 'base.html' %}
 
+{% block title %}Đặt Tour - TravelVN{% endblock %}
+
 {% block content %}
 
-<h1>Đặt tour: {{ tour.name }}</h1>
+<div class="row g-4">
 
-<p>Giá: {{ tour.price }} VNĐ</p>
+    <!-- Left -->
+    <div class="col-md-7">
 
-<form method="post">
-    {% csrf_token %}
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
 
-    <label>Số lượng người:</label>
-    <input type="number" name="quantity" min="1" value="1">
+                <h2 class="fw-bold mb-4">Đặt tour: {{ tour.name }}</h2>
 
-    <button type="submit">Xác nhận đặt</button>
-    {% if error %}
-    <p style="color:red;">{{ error }}</p>
-    {% endif %}
-</form>
+                {% if tour.image %}
+                <img src="{{ tour.image.url }}"
+                     class="img-fluid rounded mb-4 w-100"
+                     style="height:320px; object-fit:cover;">
+                {% endif %}
+
+                <p class="mb-2">
+                    <strong>📍 Điểm đến:</strong>
+                    {{ tour.destination }}
+                </p>
+
+                <p class="mb-2">
+                    <strong>🗓 Số ngày:</strong>
+                    {{ tour.duration }}
+                </p>
+
+                <p class="mb-0">
+                    <strong>👥 Còn chỗ:</strong>
+                    {{ tour.slots }}
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Right -->
+    <div class="col-md-5">
+
+        <div class="card shadow border-0">
+            <div class="card-body">
+
+                <h3 class="fw-bold mb-4 text-center">
+                    Xác nhận đặt tour
+                </h3>
+
+                <p class="text-center text-danger fw-bold fs-3">
+                    {{ tour.price }} VNĐ
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Số lượng người
+                        </label>
+
+                        <input type="number"
+                               name="quantity"
+                               min="1"
+                               value="1"
+                               class="form-control">
+                    </div>
+
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+                    <button type="submit"
+                            class="btn btn-warning w-100">
+                        Xác nhận đặt
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
 
 {% endblock %}

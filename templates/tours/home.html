@@ -2,46 +2,104 @@
 
 {% block content %}
 
-<form method="get" style="margin-bottom:20px;">
-    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Tìm tour...">
+<!-- Hero -->
+<section class="bg-primary text-white rounded p-5 mb-4 text-center shadow">
+    <h1 class="fw-bold">Khám phá tour du lịch Việt Nam</h1>
+    <p>Tìm kiếm và đặt tour nhanh chóng</p>
+</section>
 
-    <select name="destination">
-    <option value="">Tất cả địa điểm</option>
-    <option value="Đà Lạt">Đà Lạt</option>
-    <option value="Đà Nẵng">Đà Nẵng</option>
-    <option value="Phú Quốc">Phú Quốc</option>
-    </select>
+<!-- Search -->
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
 
-    <select name="sort">
-        <option value="">Mặc định</option>
-        <option value="low">Giá thấp đến cao</option>
-        <option value="high">Giá cao đến thấp</option>
-    </select>
+            <div class="col-md-4">
+                <input type="text"
+                       name="q"
+                       value="{{ request.GET.q }}"
+                       class="form-control"
+                       placeholder="Tìm tour...">
+            </div>
 
-    <button type="submit">Lọc</button>
-</form>
+            <div class="col-md-3">
+                <select name="destination" class="form-select">
+                    <option value="">Tất cả địa điểm</option>
+                    <option value="Đà Lạt">Đà Lạt</option>
+                    <option value="Đà Nẵng">Đà Nẵng</option>
+                    <option value="Phú Quốc">Phú Quốc</option>
+                </select>
+            </div>
 
-<h1>Danh sách Tour</h1>
+            <div class="col-md-3">
+                <select name="sort" class="form-select">
+                    <option value="">Mặc định</option>
+                    <option value="low">Giá thấp đến cao</option>
+                    <option value="high">Giá cao đến thấp</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <button class="btn btn-warning w-100">
+                    Lọc
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Title -->
+<h2 class="mb-4 fw-bold">Danh sách Tour</h2>
+
+<!-- Tours -->
+<div class="row">
 
 {% for tour in tours %}
-    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+
+<div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+
         {% if tour.image %}
-            <img src="{{ tour.image.url }}" width="250">
+            <img src="{{ tour.image.url }}"
+                 class="card-img-top"
+                 style="height:220px; object-fit:cover;">
         {% endif %}
 
-        <h3>{{ tour.name }}</h3>
-        <p>Điểm đến: {{ tour.destination }}</p>
-        <p>Giá: {{ tour.price }} VNĐ</p>
-        <p>Còn {{ tour.slots }} chỗ</p>
+        <div class="card-body">
 
-        <a href="{% url 'tour_detail' tour.id %}">
-            Xem chi tiết
-        </a>
+            <h5 class="fw-bold">{{ tour.name }}</h5>
+
+            <p class="text-muted mb-1">
+                📍 {{ tour.destination }}
+            </p>
+
+            <p class="text-danger fw-bold fs-5">
+                {{ tour.price }} VNĐ
+            </p>
+
+            <p>
+                Còn {{ tour.slots }} chỗ
+            </p>
+
+            <a href="{% url 'tour_detail' tour.id %}"
+               class="btn btn-primary w-100">
+                Xem chi tiết
+            </a>
+
+        </div>
     </div>
+</div>
 
-    {% empty %}
+{% empty %}
 
-    <p>Không tìm thấy tour phù hợp.</p>
+<div class="col-12">
+    <div class="alert alert-warning">
+        Không tìm thấy tour phù hợp.
+    </div>
+</div>
+
 {% endfor %}
+
+</div>
 
 {% endblock %}

@@ -6,3 +6,8 @@ from .models import Profile
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'phone', 'address')
     search_fields = ('user__username', 'phone')
+    ordering = (
+        'user__username',
+    )
+
+    list_per_page = 10

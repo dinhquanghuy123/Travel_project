@@ -1,0 +1,83 @@
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-size: 28px;
+}
+
+/* Hero */
+section {
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Card Tour */
+.card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+    transition: 0.3s;
+}
+
+.card:hover img {
+    transform: scale(1.03);
+}
+
+.card-title,
+h5 {
+    font-size: 22px;
+}
+
+/* Price */
+.text-danger {
+    font-size: 22px;
+}
+
+/* Search box */
+.form-control,
+.form-select {
+    height: 48px;
+    border-radius: 8px;
+}
+
+.btn {
+    height: 48px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* Footer */
+footer {
+    margin-top: 60px;
+    font-size: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+
+    section {
+        min-height: 220px;
+        padding: 30px 20px;
+    }
+
+    section h1 {
+        font-size: 32px;
+    }
+
+    .card img {
+        height: 220px !important;
+    }
+}

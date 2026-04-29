@@ -8,3 +8,8 @@ class BookingAdmin(admin.ModelAdmin):
                     'quantity', 'total_price', 'status', 'booked_at')
     search_fields = ('user__username', 'tour__name')
     list_filter = ('status',)
+    list_editable = ('status',)
+
+    ordering = ('-booked_at',)
+
+    list_per_page = 10
