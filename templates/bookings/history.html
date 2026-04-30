@@ -68,6 +68,14 @@
                 Xem tour
             </a>
 
+            {% if booking.status == 'pending' %}
+                <a href="{% url 'cancel_booking' booking.id %}"
+                    class="btn btn-danger w-100"
+                    onclick="return confirm('Bạn có chắc muốn hủy booking này?')">
+                    ❌ Hủy booking
+                </a>
+            {% endif %}
+
         </div>
     </div>
 

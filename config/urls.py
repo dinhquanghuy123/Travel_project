@@ -8,6 +8,7 @@ urlpatterns = [
     path('', include('tours.urls')),
     path('users/', include('users.urls')),
     path('bookings/', include('bookings.urls')),
+    path('dashboard/', include('dashboard.urls')),
 ]
 
 if settings.DEBUG:

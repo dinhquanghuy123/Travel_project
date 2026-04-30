@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">Quản lý Booking</h2>
+
+<!-- Filter -->
+<form method="get" class="mb-3">
+    <select name="status" onchange="this.form.submit()">
+    <option value="">Tất cả</option>
+
+    <option value="pending"
+        {% if request.GET.status == 'pending' %}selected{% endif %}>
+        Pending
+    </option>
+
+    <option value="confirmed"
+        {% if request.GET.status == 'confirmed' %}selected{% endif %}>
+        Confirmed
+    </option>
+
+    <option value="cancelled"
+        {% if request.GET.status == 'cancelled' %}selected{% endif %}>
+        Cancelled
+    </option>
+</select>
+</form>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Tour</th>
+            <th>Giá</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for b in bookings %}
+        <tr>
+            <td>{{ b.user.username }}</td>
+            <td>{{ b.tour.name }}</td>
+            <td>{{ b.total_price|floatformat:0 }} VNĐ</td>
+            <td>
+                {% if b.status == 'pending' %}
+                    <span class="badge bg-warning text-dark">
+                        {{ b.get_status_display }}
+                    </span>
+
+                {% elif b.status == 'confirmed' %}
+                    <span class="badge bg-success">
+                        {{ b.get_status_display }}
+                    </span>
+
+                {% elif b.status == 'cancelled' %}
+                    <span class="badge bg-danger">
+                        {{ b.get_status_display }}
+                    </span>
+                {% endif %}
+            </td>
+
+            <td>
+                {% if b.status == 'pending' %}
+                    <a href="{% url 'confirm_booking' b.id %}"
+                       class="btn btn-success btn-sm">
+                        Duyệt
+                    </a>
+
+                    <a href="{% url 'cancel_booking' b.id %}"
+                       class="btn btn-danger btn-sm">
+                        Hủy
+                    </a>
+                {% else %}
+                    <span class="text-muted">---</span>
+                {% endif %}
+            </td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

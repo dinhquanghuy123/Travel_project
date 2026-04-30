@@ -38,11 +38,31 @@
                     </a>
                 </li>
 
+                {% if request.user.is_staff %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                </li>
+
+                                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'manage_bookings' %}">
+                        Quản lý Booking
+                    </a>
+                </li>
+
+                {% endif %}
+
                 {% if request.user.is_authenticated %}
 
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'profile' %}">
                         👤 {{ request.user.username }}
+
+                        {% if request.user.is_staff %}
+                            <span class="badge bg-danger ms-2">
+                                Admin
+                            </span>
+                        {% endif %}
                     </a>
                 </li>
 
@@ -91,7 +111,7 @@
 
         {% for message in messages %}
 
-        <div class="alert alert-success alert-dismissible fade show shadow-sm"
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm"
              role="alert">
 
             {{ message }}
@@ -133,6 +153,8 @@
 </footer>
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 setTimeout(function () {

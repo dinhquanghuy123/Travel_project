@@ -4,6 +4,7 @@ from django.contrib import messages
 
 from tours.models import Tour
 from .models import Booking
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 @login_required
@@ -55,3 +56,46 @@ def booking_history_view(request):
     return render(request, 'bookings/history.html', {
         'bookings': bookings
     })
+
+
+@login_required
+def cancel_booking_view(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id, user=request.user)
+
+    # ❗ chỉ cho hủy khi chưa hủy
+    if booking.status == 'cancelled':
+        messages.warning(request, "Booking đã bị hủy trước đó")
+        return redirect('booking_history')
+
+    if booking.status != 'pending':
+        messages.error(request, "Không thể hủy booking này")
+        return redirect('booking_history')
+
+    # ✅ hoàn lại slot
+    tour = booking.tour
+    tour.slots += booking.quantity
+    tour.save()
+
+    # ✅ cập nhật trạng thái
+    booking.status = 'cancelled'
+    booking.save()
+
+    messages.success(request, "Hủy booking thành công")
+
+    return redirect('booking_history')
+
+
+@staff_member_required
+def confirm_booking_view(request, booking_id):
+    booking = get_object_or_404(Booking, id=booking_id)
+
+    if booking.status != 'pending':
+        messages.warning(request, "Booking này không thể xác nhận")
+        return redirect('dashboard')  # hoặc trang admin riêng
+
+    booking.status = 'confirmed'
+    booking.save()
+
+    messages.success(request, "Xác nhận booking thành công")
+
+    return redirect('dashboard')

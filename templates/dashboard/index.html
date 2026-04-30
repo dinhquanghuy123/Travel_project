@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<h2 class="fw-bold mb-4">Dashboard</h2>
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm p-3 border-0">
+            <h6 class="text-muted">Tours</h6>
+            <h2 class="fw-bold text-primary">{{ total_tours }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm p-3 border-0">
+            <h6 class="text-secondary">Users</h6>
+            <h2 class="fw-bold text-secondary">{{ total_users }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm p-3 border-0">
+            <h6 class="text-warning">Bookings</h6>
+            <h2 class="fw-bold text-warning">{{ total_bookings }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm p-3 border-0">
+            <h6 class="text-success">Revenue</h6>
+            <h2 class="fw-bold text-success">
+                {{ total_revenue|floatformat:0 }} VNĐ
+            </h2>
+        </div>
+    </div>
+
+</div>
+
+<h4 class="mb-3">Biểu đồ booking theo tháng</h4>
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card p-3 shadow-sm border-0" style="height:350px;">
+            <canvas id="bookingChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<h4 class="mb-3">Booking gần nhất</h4>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Tour</th>
+            <th>Giá</th>
+            <th>Trạng thái</th>
+            <th>Ngày</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in recent_bookings %}
+        <tr>
+            <td>{{ b.user.username }}</td>
+            <td>{{ b.tour.name }}</td>
+            <td>{{ b.total_price|floatformat:0 }} VNĐ</td>
+            <td>{{ b.get_status_display }}</td>
+            <td>{{ b.booked_at|date:"d/m/Y" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4 class="mt-4">Top tour</h4>
+
+<ul class="list-group">
+    {% for t in top_tours %}
+        <li class="list-group-item d-flex justify-content-between">
+            {{ t.tour__name }}
+            <span>{{ t.total }} người</span>
+        </li>
+    {% endfor %}
+</ul>
+
+<script>
+window.addEventListener('load', function() {
+
+    const labels = [
+        {% for item in booking_chart %}
+            "{{ item.month|date:'m/Y' }}",
+        {% endfor %}
+    ];
+
+    const dataValues = [
+        {% for item in booking_chart %}
+            {{ item.total }},
+        {% endfor %}
+    ];
+
+    new Chart(document.getElementById('bookingChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Booking theo tháng',
+                data: dataValues,
+                backgroundColor: 'rgba(13, 110, 253, 0.5)',
+                borderColor: 'rgba(13, 110, 253, 1)',
+                borderWidth: 2,
+                borderRadius: 8
+            }]
+        },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: true
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    }
+    });
+
+});
+</script>
+
+{% endblock %}
