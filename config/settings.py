@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-$yjt8-!$9h_m_kt16dmt-jnpr@mn9w^+lc=rhpt+@wd5xc7mb%
 DEBUG = False
 
 ALLOWED_HOSTS = ['dinhhuy1712.pythonanywhere.com']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,14 +38,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'users',
-    'tours',
-    'bookings',
-    'dashboard',
+    'django.contrib.humanize',
+    'apps.users',
+    'apps.tours',
+    'apps.bookings',
+    'apps.dashboard',
+    'core',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -124,3 +128,5 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

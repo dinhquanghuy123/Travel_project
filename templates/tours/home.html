@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
+{% load money %}
+
 {% block content %}
 
 <!-- Hero -->
-<section class="bg-primary text-white rounded p-5 mb-4 text-center shadow">
+<section class="hero text-white p-5 mb-4 text-center shadow">
     <h1 class="fw-bold">Khám phá tour du lịch Việt Nam</h1>
     <p>Tìm kiếm và đặt tour nhanh chóng</p>
 </section>
@@ -49,57 +51,21 @@
 </div>
 
 <!-- Title -->
-<h2 class="mb-4 fw-bold">Danh sách Tour</h2>
+<h2 class="fw-bold mb-4 border-start ps-3" style="border-color:#0d6efd;">
+    Danh sách Tour
+</h2>
 
 <!-- Tours -->
-<div class="row">
-
-{% for tour in tours %}
-
-<div class="col-md-4 mb-4">
-    <div class="card h-100 shadow-sm">
-
-        {% if tour.image %}
-            <img src="{{ tour.image.url }}"
-                 class="card-img-top"
-                 style="height:220px; object-fit:cover;">
-        {% endif %}
-
-        <div class="card-body">
-
-            <h5 class="fw-bold">{{ tour.name }}</h5>
-
-            <p class="text-muted mb-1">
-                📍 {{ tour.destination }}
-            </p>
-
-            <p class="text-danger fw-bold fs-5">
-                {{ tour.price }} VNĐ
-            </p>
-
-            <p>
-                Còn {{ tour.slots }} chỗ
-            </p>
-
-            <a href="{% url 'tour_detail' tour.id %}"
-               class="btn btn-primary w-100">
-                Xem chi tiết
-            </a>
-
-        </div>
+{% if tours %}
+    {% for tour in tours %}
+        {% include "components/tour_card.html" with tour=tour %}
+    {% endfor %}
+{% else %}
+    <div class="alert alert-warning text-center">
+        Không tìm thấy tour phù hợp 😢
     </div>
-</div>
+{% endif %}
 
-{% empty %}
-
-<div class="col-12">
-    <div class="alert alert-warning">
-        Không tìm thấy tour phù hợp.
-    </div>
-</div>
-
-{% endfor %}
-
-</div>
+{% include "components/pagination.html" with page_obj=tours %}
 
 {% endblock %}

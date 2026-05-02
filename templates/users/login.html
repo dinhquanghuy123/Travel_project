@@ -4,46 +4,43 @@
 
 {% block content %}
 
-<div class="row justify-content-center">
+<div class="row justify-content-center align-items-center" style="min-height:70vh;">
 
-    <div class="col-md-5">
+    <div class="col-md-4">
 
-        <div class="card shadow border-0 mt-5">
+        <div class="card shadow border-0 login-card">
             <div class="card-body p-4">
 
-                <h2 class="text-center fw-bold mb-4">
-                    Đăng nhập
-                </h2>
+                <!-- TITLE -->
+                <h3 class="text-center fw-bold mb-4">
+                     Đăng nhập
+                </h3>
 
+                <!-- FORM -->
                 <form method="post">
                     {% csrf_token %}
 
                     <div class="mb-3">
-                        <label class="form-label">
-                            Tên đăng nhập
-                        </label>
+                        <label class="form-label">Tên đăng nhập</label>
                         {{ form.username }}
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">
-                            Mật khẩu
-                        </label>
+                        <label class="form-label">Mật khẩu</label>
                         {{ form.password }}
                     </div>
 
                     <button type="submit"
-                            class="btn btn-primary w-100">
+                            class="btn btn-primary w-100 mb-3">
                         Đăng nhập
                     </button>
 
                 </form>
 
-                <hr>
-
+                <!-- LINK -->
                 <p class="text-center mb-0">
                     Chưa có tài khoản?
-                    <a href="{% url 'register' %}">
+                    <a href="{% url 'register' %}" class="fw-bold">
                         Đăng ký ngay
                     </a>
                 </p>

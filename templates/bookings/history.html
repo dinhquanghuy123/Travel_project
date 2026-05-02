@@ -1,80 +1,93 @@
 {% extends 'base.html' %}
+{% load money %}
 
 {% block title %}Lịch sử đặt tour - TravelVN{% endblock %}
 
 {% block content %}
 
-<h1 class="fw-bold mb-4">Lịch sử đặt tour</h1>
+<h1 class="fw-bold mb-4 border-start ps-3" style="border-color:#0d6efd;">
+    Lịch sử đặt tour
+</h1>
 
 {% if bookings %}
 
-<div class="row">
+<div class="row g-4">
 
 {% for booking in bookings %}
 
-<div class="col-md-6 mb-4">
+<div class="col-md-6">
 
-    <div class="card shadow-sm border-0 h-100">
-        <div class="card-body">
+    <div class="card shadow-sm border-0 h-100 booking-card">
+        <div class="card-body d-flex flex-column">
 
-            <h4 class="fw-bold mb-3">
+            <!-- TOUR NAME -->
+            <h5 class="fw-bold mb-2">
                 {{ booking.tour.name }}
-            </h4>
+            </h5>
 
-            <p class="mb-2">
-                <strong>👥 Số người:</strong>
-                {{ booking.quantity }}
-            </p>
-
-            <p class="mb-2">
-                <strong>💰 Tổng tiền:</strong>
-                <span class="text-danger fw-bold">
-                    {{ booking.total_price }} VNĐ
-                </span>
-            </p>
-
-            <p class="mb-2">
-                <strong>📌 Trạng thái:</strong>
-
+            <!-- STATUS -->
+            <div class="mb-2">
                 {% if booking.status == 'pending' %}
-                    <span class="badge bg-warning text-dark">
-                        {{ booking.get_status_display }}
+                    <span class="badge bg-warning text-dark px-3 py-2">
+                        ⏳ {{ booking.get_status_display }}
                     </span>
 
                 {% elif booking.status == 'confirmed' %}
-                    <span class="badge bg-success">
-                        {{ booking.get_status_display }}
+                    <span class="badge bg-success px-3 py-2">
+                        ✔ {{ booking.get_status_display }}
                     </span>
 
                 {% elif booking.status == 'cancelled' %}
-                    <span class="badge bg-danger">
-                        {{ booking.get_status_display }}
+                    <span class="badge bg-danger px-3 py-2">
+                        ❌ {{ booking.get_status_display }}
                     </span>
 
                 {% else %}
-                    <span class="badge bg-secondary">
+                    <span class="badge bg-secondary px-3 py-2">
                         {{ booking.get_status_display }}
                     </span>
                 {% endif %}
+            </div>
+
+            <!-- INFO GRID -->
+            <div class="row text-center my-3">
+
+                <div class="col">
+                    <div class="fw-bold">{{ booking.quantity }}</div>
+                    <small class="text-muted">Người</small>
+                </div>
+
+                <div class="col">
+                    <div class="fw-bold text-danger">
+                        {{ booking.total_price|money }}
+                    </div>
+                    <small class="text-muted">Tổng tiền</small>
+                </div>
+
+            </div>
+
+            <!-- DATE -->
+            <p class="text-muted small mb-3">
+                🕒 {{ booking.booked_at|date:"d/m/Y H:i" }}
             </p>
 
-            <p class="mb-3">
-                <strong>🕒 Ngày đặt:</strong>
-                {{ booking.booked_at|date:"d/m/Y H:i" }}
-            </p>
+            <!-- ACTION -->
+            <div class="mt-auto">
 
-            <a href="{% url 'tour_detail' booking.tour.id %}"
-               class="btn btn-outline-primary w-100">
-                Xem tour
-            </a>
+                <a href="{% url 'tour_detail' booking.tour.id %}"
+                   class="btn btn-outline-primary w-100 mb-2">
+                    Xem tour
+                </a>
 
-            {% if booking.status == 'pending' %}
+                {% if booking.status == 'pending' %}
                 <a href="{% url 'cancel_booking' booking.id %}"
-                    class="btn btn-danger w-100"
-                    onclick="return confirm('Bạn có chắc muốn hủy booking này?')">
+                   class="btn btn-danger w-100"
+                   onclick="return confirm('Bạn có chắc muốn hủy booking này?')">
                     ❌ Hủy booking
                 </a>
-            {% endif %}
+                {% endif %}
+
+            </div>
 
         </div>
     </div>
@@ -87,8 +100,14 @@
 
 {% else %}
 
-<div class="alert alert-info">
-    Bạn chưa có booking nào.
+<div class="text-center mt-5">
+
+    <h4 class="fw-bold mb-3">Bạn chưa có booking nào</h4>
+
+    <a href="/" class="btn btn-primary">
+        Khám phá tour ngay
+    </a>
+
 </div>
 
 {% endif %}

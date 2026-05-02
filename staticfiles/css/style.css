@@ -3,42 +3,60 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.container {
+    max-width: 1200px;
+}
+
 /* Navbar */
 .navbar-brand {
     font-size: 28px;
 }
 
+.navbar .nav-link {
+    transition: 0.2s;
+}
+
+.navbar .nav-link:hover {
+    color: #ffd43b !important;
+}
+
 /* Hero */
-section {
+.hero {
     min-height: 280px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background: linear-gradient(135deg, #0d6efd, #4dabf7);
+    border-radius: 20px;
+}
+
+/* Title */
+
+h2 {
+    margin-top: 20px;
 }
 
 /* Card Tour */
-.card {
-    border-radius: 12px;
+.tour-card {
+    border-radius: 16px;
     overflow: hidden;
     transition: all 0.3s ease;
+    background: #fff;
 }
 
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+.tour-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
-.card img {
+.tour-card img {
     transition: 0.3s;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
 }
 
-.card:hover img {
-    transform: scale(1.03);
-}
-
-.card-title,
-h5 {
-    font-size: 22px;
+.tour-card:hover img {
+    transform: scale(1.05);
 }
 
 /* Price */
@@ -51,12 +69,23 @@ h5 {
 .form-select {
     height: 48px;
     border-radius: 8px;
+    transition: 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.2);
 }
 
 .btn {
     height: 48px;
     border-radius: 8px;
     font-weight: 600;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
 }
 
 /* Footer */
@@ -68,16 +97,169 @@ footer {
 /* Responsive */
 @media (max-width: 768px) {
 
-    section {
+    .hero {
         min-height: 220px;
         padding: 30px 20px;
     }
 
-    section h1 {
+    .hero h1 {
         font-size: 32px;
     }
 
-    .card img {
+    .tour-card img {
         height: 220px !important;
     }
+}
+
+
+.pagination .page-link {
+    border-radius: 8px;
+    margin: 0 3px;
+}
+
+.pagination .active .page-link {
+    background-color: #0d6efd;
+    border: none;
+}
+
+/* DETAIL PAGE */
+.tour-detail-img {
+    height: 420px;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+/* REVIEW */
+.review-item {
+    border-bottom: 1px solid #eee;
+}
+
+/* BOOKING BOX */
+.booking-box {
+    top: 20px;
+    border-radius: 16px;
+}
+
+/* BOOKING PAGE */
+.booking-img {
+    height: 280px;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.booking-info {
+    border-radius: 16px;
+}
+
+.booking-box {
+    top: 20px;
+    border-radius: 16px;
+}
+
+/* BOOKING CARD */
+.booking-card {
+    border-radius: 16px;
+    transition: 0.3s;
+}
+
+.booking-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* LOGIN */
+.login-card {
+    border-radius: 16px;
+}
+
+.login-card input {
+    height: 45px;
+    border-radius: 8px;
+}
+
+.login-card input:focus {
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.2);
+}
+
+/* REGISTER */
+.register-card {
+    border-radius: 16px;
+}
+
+.register-card input {
+    height: 45px;
+    border-radius: 8px;
+}
+
+.register-card input:focus {
+    box-shadow: 0 0 0 2px rgba(25, 135, 84, 0.2);
+}
+
+/* PROFILE */
+.profile-card {
+    border-radius: 16px;
+}
+
+/* AVATAR */
+.avatar-circle {
+    width: 90px;
+    height: 90px;
+    background: linear-gradient(135deg, #0d6efd, #4dabf7);
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 404 PAGE */
+.display-1 {
+    font-size: 100px;
+}
+
+.btn-primary {
+    transition: 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+}
+
+/* ERROR PAGE */
+.display-1 {
+    font-size: 100px;
+}
+
+.btn {
+    transition: 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+/* ADMIN TABLE */
+.table th {
+    font-weight: 600;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f5ff;
+}
+
+/* DASHBOARD */
+.stat-card {
+    border-radius: 16px;
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
 }

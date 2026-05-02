@@ -4,50 +4,68 @@
 
 {% block content %}
 
-<div class="row justify-content-center">
+<div class="row justify-content-center align-items-center" style="min-height:70vh;">
 
-    <div class="col-md-6">
+    <div class="col-md-5">
 
-        <div class="card shadow border-0 mt-5">
+        <div class="card shadow border-0 register-card">
             <div class="card-body p-4">
 
-                <h2 class="text-center fw-bold mb-4">
-                    Đăng ký tài khoản
-                </h2>
+                <!-- TITLE -->
+                <h3 class="text-center fw-bold mb-4">
+                     Đăng ký tài khoản
+                </h3>
 
                 <form method="post">
                     {% csrf_token %}
 
+                    <!-- USERNAME -->
                     <div class="mb-3">
-                        <label class="form-label">
-                            Tên đăng nhập
-                        </label>
+                        <label class="form-label">Tên đăng nhập</label>
                         {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.username.errors.0 }}
+                            </div>
+                        {% endif %}
                     </div>
 
+                    <!-- EMAIL -->
                     <div class="mb-3">
-                        <label class="form-label">
-                            Email
-                        </label>
+                        <label class="form-label">Email</label>
                         {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.email.errors.0 }}
+                            </div>
+                        {% endif %}
                     </div>
 
+                    <!-- PASSWORD -->
                     <div class="mb-3">
-                        <label class="form-label">
-                            Mật khẩu
-                        </label>
+                        <label class="form-label">Mật khẩu</label>
                         {{ form.password1 }}
+                        {% if form.password1.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.password1.errors.0 }}
+                            </div>
+                        {% endif %}
                     </div>
 
+                    <!-- PASSWORD2 -->
                     <div class="mb-3">
-                        <label class="form-label">
-                            Nhập lại mật khẩu
-                        </label>
+                        <label class="form-label">Nhập lại mật khẩu</label>
                         {{ form.password2 }}
+                        {% if form.password2.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.password2.errors.0 }}
+                            </div>
+                        {% endif %}
                     </div>
 
+                    <!-- BUTTON -->
                     <button type="submit"
-                            class="btn btn-success w-100">
+                            class="btn btn-success w-100 mb-3">
                         Đăng ký
                     </button>
 
@@ -57,7 +75,7 @@
 
                 <p class="text-center mb-0">
                     Đã có tài khoản?
-                    <a href="{% url 'login' %}">
+                    <a href="{% url 'login' %}" class="fw-bold">
                         Đăng nhập
                     </a>
                 </p>
