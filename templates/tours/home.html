@@ -5,9 +5,11 @@
 {% block content %}
 
 <!-- Hero -->
-<section class="hero text-white p-5 mb-4 text-center shadow">
-    <h1 class="fw-bold">Khám phá tour du lịch Việt Nam</h1>
-    <p>Tìm kiếm và đặt tour nhanh chóng</p>
+<section class="hero text-white text-center mb-4">
+    <div class="overlay">
+        <h1 class="fw-bold">Khám phá tour du lịch Việt Nam</h1>
+        <p>Đặt tour dễ dàng - Giá tốt mỗi ngày</p>
+    </div>
 </section>
 
 <!-- Search -->
@@ -57,9 +59,17 @@
 
 <!-- Tours -->
 {% if tours %}
+    <div class="row g-4 justify-content-center">
+
     {% for tour in tours %}
+    
+    <div class="col-md-6 col-lg-4">
         {% include "components/tour_card.html" with tour=tour %}
+    </div>
+
     {% endfor %}
+
+</div>
 {% else %}
     <div class="alert alert-warning text-center">
         Không tìm thấy tour phù hợp 😢
