@@ -1,13 +1,29 @@
 {% load money %}
 <div class="card tour-card h-100 w-100 shadow-sm">
 
-    {% if tour.image %}
-        <img src="{{ tour.image.url }}" class="card-img-top w-100" style="height:220px; object-fit:cover;">
-    {% else %}
-        <img src="/static/images/no-image.jpg"
-            class="card-img-top"
-            style="height:220px; object-fit:cover;">
-    {% endif %}
+    <div class="position-relative">
+
+        <!-- ❤️ Wishlist -->
+
+        <button class="wishlist-btn position-absolute top-0 end-0 m-2" data-id="{{ tour.id }}">
+
+            {% if tour.id in wishlist_ids %}
+                <i class="bi bi-heart-fill heart active"></i>
+            {% else %}
+                <i class="bi bi-heart heart"></i>
+            {% endif %}
+
+        </button>
+
+
+        {% if tour.image %}
+            <img src="{{ tour.image.url }}" class="card-img-top w-100" style="height:220px; object-fit:cover;">
+        {% else %}
+            <img src="/static/images/no-image.jpg"
+                class="card-img-top"
+                style="height:220px; object-fit:cover;">
+        {% endif %}
+    </div>
 
     <div class="card-body">
 

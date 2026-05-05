@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from .models import Tour, Review
 from django.contrib.auth.decorators import login_required
+from .models import Wishlist
+from django.http import JsonResponse
 from django.contrib import messages
 from django.core.paginator import Paginator
 
@@ -30,7 +32,7 @@ def home_view(request):
     else:
         tours = tours.order_by('-created_at')
 
-    # 🔥 PAGINATION
+    # PAGINATION
     paginator = Paginator(tours, 6)  # 6 tour / page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -38,9 +40,16 @@ def home_view(request):
     query_params = request.GET.copy()
     query_params.pop('page', None)
 
+    # Wishlist
+    wishlist_ids = []
+    if request.user.is_authenticated:
+        wishlist_ids = Wishlist.objects.filter(user=request.user)\
+            .values_list('tour_id', flat=True)
+
     return render(request, 'tours/home.html', {
         'tours': page_obj,
-        'query_params': query_params.urlencode()
+        'query_params': query_params.urlencode(),
+        'wishlist_ids': wishlist_ids
     })
 
 
@@ -101,3 +110,36 @@ def add_review_view(request, pk):
         )
 
     return redirect('tour_detail', pk=tour.id)
+
+
+@login_required
+def toggle_wishlist(request, tour_id):
+    tour = get_object_or_404(Tour, id=tour_id)
+
+    wishlist_item, created = Wishlist.objects.get_or_create(
+        user=request.user,
+        tour=tour
+    )
+
+    if not created:
+        wishlist_item.delete()
+        status = "removed"
+    else:
+        status = "added"
+
+    # 🔥 nếu là AJAX
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({"status": status})
+
+    # 🔥 nếu click bình thường
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required
+def my_wishlist(request):
+    items = Wishlist.objects.filter(user=request.user)
+    wishlist_ids = items.values_list('tour_id', flat=True)
+    return render(request, 'tours/wishlist.html', {
+        'items': items,
+        'wishlist_ids': wishlist_ids
+    })

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}TravelVN{% endblock %}</title>
 
+    <link rel="stylesheet" href="{% static 'css/bootstrap-icons.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
@@ -44,7 +45,7 @@
                     <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
                 </li>
 
-                                <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'manage_bookings' %}">
                         Quản lý Booking
                     </a>
@@ -69,6 +70,12 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'booking_history' %}">
                         📋 Booking
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'my_wishlist' %}">
+                        ❤️ Wishlist
                     </a>
                 </li>
 
@@ -155,6 +162,41 @@
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll(".wishlist-btn").forEach(btn => {
+
+        btn.addEventListener("click", function () {
+
+            const tourId = this.dataset.id;
+            const icon = this.querySelector(".heart");
+
+            fetch(`/wishlist/${tourId}/`, {
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                    if (data.status === "added") {
+                        icon.classList.remove("bi-heart");
+                        icon.classList.add("bi-heart-fill", "active");
+                    } else {
+                        icon.classList.remove("bi-heart-fill", "active");
+                        icon.classList.add("bi-heart");
+                    }
+
+                });
+
+        });
+
+    });
+
+});
+</script>
 
 <script>
 setTimeout(function () {

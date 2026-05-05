@@ -61,15 +61,15 @@
 {% if tours %}
     <div class="row g-4 justify-content-center">
 
-    {% for tour in tours %}
-    
-    <div class="col-md-6 col-lg-4">
-        {% include "components/tour_card.html" with tour=tour %}
+        {% for tour in tours %}
+        
+            <div class="col-md-6 col-lg-4">
+                {% include "components/tour_card.html" with tour=tour %}
+            </div>
+
+        {% endfor %}
+
     </div>
-
-    {% endfor %}
-
-</div>
 {% else %}
     <div class="alert alert-warning text-center">
         Không tìm thấy tour phù hợp 😢

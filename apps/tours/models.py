@@ -34,3 +34,11 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.tour.name} ({self.rating})"
+
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tour = models.ForeignKey('Tour', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'tour')
